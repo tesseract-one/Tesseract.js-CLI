@@ -1,0 +1,7 @@
+{
+  "templatePath": "./wrapper",
+  "name": "cent",
+  "url": "https://beta.cent.co/",
+  "isLightStatusBar": true,
+  "statusBarColor": "#123123"
+}
