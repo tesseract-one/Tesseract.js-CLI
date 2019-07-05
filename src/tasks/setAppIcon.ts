@@ -1,23 +1,18 @@
-import path from 'path'
-import  { Task, unlinkAsync, existsAsync } from '../utils'
-import { Constants } from '../types'
+import  { Task } from '../utils'
+import { Config } from '../types'
 const appIcon = require('app-icon')
 
 type Params = {
+  config: Config
   templateDirPath: string
   currentDirPath: string
   destDirPath: string
-  constants: Constants
 }
-type Result = { isSetAppIcon: boolean }
+type Result = {}
 
 export class SetAppIcon extends Task<Params, Result> {
-  async forward({ templateDirPath, currentDirPath, destDirPath, constants }: Params) {
-    let isSetAppIcon: boolean
-    const isCustomAppIcon = await existsAsync(path.join(currentDirPath, constants.appIconFileName))
-    const appIconPath = isCustomAppIcon
-      ? path.join(currentDirPath, constants.appIconFileName)
-      : path.join(templateDirPath, 'defaults', constants.appIconFileName)
+  async forward({ config, destDirPath }: Params) {
+    const appIconPath = config.template.resources.appIcon
 
     try {
       await appIcon.generate({
@@ -25,20 +20,10 @@ export class SetAppIcon extends Task<Params, Result> {
         platforms: 'ios',
         searchRoot: destDirPath,
       })
-      isSetAppIcon = true
     } catch (err) {
       console.error(`Error, app icon wasn\'t set. ${err}`)
-      isSetAppIcon = false
     }
 
-    if (isCustomAppIcon) {
-      try {
-        await unlinkAsync(path.join(appIconPath))
-      } catch (err) {
-        console.error(`Error, app icon wasn\'t deleted. ${err}`)
-      }
-    }
-
-    return { isSetAppIcon }
+    return {}
   }
 }

@@ -1,12 +1,11 @@
 import fs from 'fs'
 import path from 'path'
-import { spawn } from 'child_process'
+import { ChildProcess } from 'child_process'
 import { promisify } from 'util'
 
 export const existsAsync = promisify(fs.exists)
 export const renameAsync = promisify(fs.rename)
 export const copyFileAsync = promisify(fs.copyFile)
-export const spawnAsync = promisify(spawn)
 export const readFileAsync = promisify(fs.readFile)
 export const unlinkAsync = promisify(fs.unlink)
 export const readdirAsync = promisify(fs.readdir)
@@ -25,4 +24,10 @@ export const removeDirAsync = async (dir: string) => {
   const files = await readdirAsync(dir)
   await Promise.all(files.map(file => removeDirContentAsync(dir, file)))
   await rmdirAsync(dir)
+}
+
+export function waitTillExit(process: ChildProcess): Promise<number> {
+  return new Promise((resolve, reject) => {
+    process.on('close', (code) => code === 0 ? resolve(code) : reject(code))
+  })
 }

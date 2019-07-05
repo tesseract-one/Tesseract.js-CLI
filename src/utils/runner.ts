@@ -37,12 +37,12 @@ export class Runner<Context extends BaseContext> {
         context = Object.assign(context, patch)
       }
     } catch(err) {
-      console.error("Forward failed:", this.tasks[index].constructor.name, err)
+      console.error('Forward failed:', this.tasks[index].constructor.name, err)
       for (; index >= 0; index--) {
         try {
           await this.tasks[index].rollback(context)
         } catch (err) {
-          console.error("Rollback failed:", this.tasks[index].constructor.name, err)
+          console.error('Rollback failed:', this.tasks[index].constructor.name, err)
         }
       }
       return
@@ -51,7 +51,7 @@ export class Runner<Context extends BaseContext> {
       try {
         await this.tasks [index].backward(context)
       } catch(err) {
-        console.error("Backward failed:", this.tasks[index].constructor.name, err)
+        console.error('Backward failed:', this.tasks[index].constructor.name, err)
       }
     }
   }

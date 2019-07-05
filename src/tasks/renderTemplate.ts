@@ -1,51 +1,36 @@
-import  { Task, hexToRgb } from '../utils'
-import { RenderedAction, GenerationParams, RenderConfig, RenderArguments, Constants } from '../types'
+import  { Task } from '../utils'
+import { RenderedAction, Config, RenderConfig, RenderArguments } from '../types'
 const render = require('hygen/lib/render')
 const Logger = require('hygen/lib/logger')
 
 type Params = {
+  config: Config
   currentDirPath: string
   templateDirPath: string
-  constants: Constants
 }
 type Result = { 
   renderedActions: RenderedAction[]
-  args: RenderArguments
-  config: RenderConfig
+  renderArgs: RenderArguments
+  renderConf: RenderConfig
 }
 
 export class RenderTemplateTask extends Task<Params, Result> {
-  private generationParams: GenerationParams
-
-  constructor(generationParams: GenerationParams) {
-    super()
-    this.generationParams = generationParams
-  }
-
-  async forward({ currentDirPath, templateDirPath, constants }: Params) {
-    const statusBarColor = hexToRgb(this.generationParams.statusBarColor) || hexToRgb(constants.statusBarColor)!
-    const statusBarStyle = this.generationParams.isLightStatusBar ? '.lightContent' : '.darkContent'
-    const args: RenderArguments = {
+  async forward({ config, currentDirPath, templateDirPath }: Params) {
+    const renderArgs: RenderArguments = {
       cwd: currentDirPath,
-      actionfolder: templateDirPath,
-      name: this.generationParams.name,
-      url: this.generationParams.url,
-      barStyle: statusBarStyle,
-      red: statusBarColor.r,
-      green: statusBarColor.g,
-      blue: statusBarColor.b
+      actionfolder: templateDirPath + "/",
+      config: config
     }
-    const config: RenderConfig = {
+    const renderConf: RenderConfig = {
       cwd: currentDirPath,
       logger: new Logger(console.log.bind(console)),
       createPrompter: () => require('enquirer'),
-      exec: (action: any, body: any) => {
-        const opts = body && body.length > 0 ? { input: body } : {}
-        return require('execa').shell(action, opts)
+      helpers: {
+        jsonString: (obj: any, min: boolean) => JSON.stringify(obj, null, min ? undefined : 4)
       },
       debug: !!process.env.DEBUG
     }
-    const renderedActions = await render(args, config)
-    return { renderedActions, args, config }
+    const renderedActions = await render(renderArgs, renderConf)
+    return { renderedActions, renderArgs, renderConf }
   }
 }

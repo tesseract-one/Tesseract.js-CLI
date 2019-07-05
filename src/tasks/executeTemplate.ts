@@ -3,16 +3,16 @@ import { RenderedAction, RenderedResult, RenderArguments, RenderConfig } from '.
 const execute = require('hygen/lib/execute')
 
 type Params = {
-  args: RenderArguments,
-  config: RenderConfig,
+  renderArgs: RenderArguments,
+  renderConf: RenderConfig,
   renderedActions: RenderedAction[],
 }
 
 type Result = { renderedResults: RenderedResult[] }
 
 export class ExecuteTemplateTask extends Task<Params, Result> {
-  async forward({ args, config, renderedActions }: Params) {
-    const renderedResults = await execute(renderedActions, args, config)
+  async forward({ renderArgs, renderConf, renderedActions }: Params) {
+    const renderedResults = await execute(renderedActions, renderArgs, renderConf)
     return { renderedResults }
   }
 }

@@ -1,44 +1,33 @@
 import path from 'path'
 import changeCase from 'change-case'
-import  { Task, existsAsync, renameAsync, copyFileAsync } from '../utils'
-import { Constants } from '../types'
+import  { Task, copyFileAsync } from '../utils'
+import { Config } from '../types'
 
 type Params = {
+  config: Config
   templateDirPath: string
   currentDirPath: string
   destDirPath: string
-  constants: Constants
 }
-type Result = { isSetSplashImage: boolean }
+type Result = {}
 
 export class SetSpashImageTask extends Task<Params, Result> {
-  private name: string
-
-  constructor(name: string) {
-    super()
-    this.name = name
-  }
-
-  async forward({ templateDirPath, currentDirPath, destDirPath, constants }: Params) {
-    let isSetSplashImage: boolean
+  async forward({ config, destDirPath }: Params) {
+    const spashImagePath = config.template.resources.splashImage
 
     const imageDestDirPath = path.join(
       destDirPath,
-      changeCase.pascalCase(this.name),
+      changeCase.pascalCase(config.name),
       'Images.xcassets',
       'SplashImage.imageset',
-      constants.splashImageFileName
+      config.template.resources.splashImage
     )
 
-    try {
-      await existsAsync(path.join(currentDirPath, constants.splashImageFileName))
-        ? await renameAsync(path.join(currentDirPath, constants.splashImageFileName), imageDestDirPath)
-        : await copyFileAsync(path.join(templateDirPath, 'defaults', constants.splashImageFileName), imageDestDirPath)
-      isSetSplashImage = true
+    try { // ??? copy or not
+      await copyFileAsync(spashImagePath, imageDestDirPath)
     } catch (err) {
       console.error(`Error, splash image wasn\'t set. ${err}`)
-      isSetSplashImage = false
     }
-    return { isSetSplashImage }
+    return {}
   }
 }

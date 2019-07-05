@@ -1,0 +1,19 @@
+{
+  "name": "cent",
+  "template": {
+    "resources": {
+      "appIcon": "./icon.png",
+      "splashImage": "./splash-image.png"
+    }
+  },
+  "appConfig": {
+    "dappUrls": {
+      "main": "https://beta.cent.co/"
+    },
+    "rpcUrls": {
+      "1": "https://mainnet.infura.io/v3/f20390fe230e46608572ac4378b70668"
+    },
+    "statusBarColor": "#222222",
+    "isLightStatusBar": true
+  }
+}
