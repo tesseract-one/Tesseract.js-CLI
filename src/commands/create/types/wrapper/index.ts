@@ -53,7 +53,7 @@ export const handler = async (cmdConfig: yargs.Arguments<CmdConfig>) => {
     .add(new Tasks.GenerateConfigTask(cmdConfig, validationScheme))
     .add(new Tasks.GetTemplateDirPathTask())
     .add(new Tasks.GenerateConfigTask(cmdConfig, validationScheme))
-    .add(new Tasks.RemoveDestDirTask())
+    .add(new Tasks.CleanDestDirTask())
     .add(new Tasks.RenderTemplateTask())
     .add(new Tasks.SetSpashImageTask())
     .add(new Tasks.SetAppIconTask())

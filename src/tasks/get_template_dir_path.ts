@@ -6,12 +6,18 @@ import { Task, existsAsync, waitTillExit, removeDirAsync } from '../utils'
 import { Config } from '../types'
 
 type Params = {
-  config: Config,
+  config: Config
   currentDirPath: string
+}
+type BackwardParams = {
+  isTemplateFromGit: boolean
+  templateDirPath: string
 }
 type Result = { templateDirPath: string }
 
-export class GetTemplateDirPathTask extends Task<Params, Result> {
+export class GetTemplateDirPathTask extends Task<Params & BackwardParams, Result> {
+  public description = 'Obtaining template...'
+
   async forward({ config, currentDirPath }: Params) {
     let templateUrl: URL | null = null
     let templateDirPath: string
@@ -35,6 +41,11 @@ export class GetTemplateDirPathTask extends Task<Params, Result> {
     }
 
     return { templateDirPath, isTemplateFromGit }
+  }
+
+  async backward({ isTemplateFromGit, templateDirPath }: BackwardParams) {
+    if (!isTemplateFromGit) return
+    if (await existsAsync(templateDirPath)) await removeDirAsync(templateDirPath)
   }
 }
 

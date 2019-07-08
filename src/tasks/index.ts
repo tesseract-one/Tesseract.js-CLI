@@ -1,6 +1,6 @@
 export * from './get_template_dir_path'
 export * from './install_pods'
-export * from './remove_dest_dir'
+export * from './clean_dest_dir'
 export * from './render_template'
 export * from './set_app_icon'
 export * from './set_splash_image'

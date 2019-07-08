@@ -4,15 +4,17 @@ export type BaseContext = { currentDirPath: string }
 // export const Void: VoidResult = { __isVoid: true }
 
 interface ITask<Context extends BaseContext, Result extends {}> {
+  description: string
   forward(context: Context): Promise<Result>
-  backward(_: Context): Promise<void>
+  backward(_: Context & Result): Promise<void>
   rollback(context: Context): Promise<void>
 }
 
 export abstract class Task<Context extends {}, Result extends {}> implements ITask <Context & BaseContext, Result> {
+  abstract description: string
   abstract forward(context: Context & BaseContext): Promise<Result>
-  backward(_: Context & BaseContext): Promise<void> { return Promise.resolve() }
-  rollback(context: Context & BaseContext): Promise<void> { return this.backward(context) }
+  backward(_: Context & BaseContext & Result): Promise<void> { return Promise.resolve() }
+  rollback(_: Context & BaseContext): Promise<void> { return Promise.resolve() }
 }
 
 export class Runner<Context extends BaseContext> {
@@ -33,7 +35,9 @@ export class Runner<Context extends BaseContext> {
     let context = this.baseContext as Context
     try {
       for (; index < this.tasks.length; index++) {
-        const patch = await this.tasks[index].forward(context)
+        const task = this.tasks[index]
+        console.log('===', task.description)
+        const patch = await task.forward(context)
         context = Object.assign(context, patch)
       }
     } catch(err) {

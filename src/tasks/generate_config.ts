@@ -4,7 +4,7 @@ import path from 'path'
 import Ajv from "ajv"
 const ajvAsync = require("ajv-async")(new Ajv)
 
-const WRAPPER_CONFIG_DEFAULT_PATH = './wrapper_config.json'
+const WRAPPER_CONFIG_DEFAULT_PATH = './wrapper.config.json'
 const TEMPLATE_CONFIG_FILE_NAME = 'template.config.json'
 
 type Params = {
@@ -14,6 +14,7 @@ type Params = {
 type Result = { config: Config }
 
 export class GenerateConfigTask extends Task<Params, Result> {
+  public description = 'Generating config...'
   private cmdConfig: CmdConfig
   private validationScheme: Object
 

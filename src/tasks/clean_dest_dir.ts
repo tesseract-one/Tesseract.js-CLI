@@ -9,7 +9,9 @@ type Params = {
 }
 type Result = { destDirPath: string }
 
-export class RemoveDestDirTask extends Task<Params, Result> {
+export class CleanDestDirTask extends Task<Params, Result> {
+  public description = 'Cleaning destination directory...'
+
   async forward({ config, currentDirPath }: Params) {
     const destDirPath = path.join(currentDirPath, config.outputDir, paramCase(config.name))
     const isExistDestDir = await existsAsync(destDirPath)
