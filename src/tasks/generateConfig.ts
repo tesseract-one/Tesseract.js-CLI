@@ -19,6 +19,7 @@ export class GenerateConfigTask extends Task<Params, Result> {
   }
 
   async forward({ currentDirPath, templatePath }: Params) {
+    // validate json by schema
     const projectConfig = await this.readConfig(currentDirPath, this.cmdConfig.config)
 
     let config = this.cliConfig

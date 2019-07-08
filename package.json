@@ -7,7 +7,7 @@
   },
   "files": ["dist"],
   "scripts": {
-    "build": "tsc"
+    "build": "rm -rf ./dist && tsc && chmod 755 ./dist/cli.js"
   },
   "author": "",
   "license": "ISC",

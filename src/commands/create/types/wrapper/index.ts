@@ -1,26 +1,27 @@
 import yargs from 'yargs'
-import { Runner } from '../../utils'
-import { CmdConfig, Config } from '../../types'
-import cliConfig from '../../cli.config.json'
-import * as Tasks from '../../tasks'
+import { Runner, Task } from '../../../../utils'
+import { CmdConfig, Config } from '../../../../types'
+import baseConfig from './config.json'
+import * as Tasks from '../../../../tasks'
 
-export const command = 'ios-wrapper [name] [url] [rpc] [template] [out] [pods]'
-export const aliases = ['iw']
-export const desc = 'Generate ios wrapper for your web-app.'
+export const command = 'wrapper [name]'
+// export const aliases = ['w']
+export const desc = 'Generate ios wrapper for your web hosted dApp.'
+
 export const builder = (yargs: yargs.Argv) => (
   yargs.option('name', {
     alias: 'n',
-    describe: 'Name of the app.',
+    describe: 'Name of the dApp.',
     type: 'string'
   })
   .option('url', {
     alias: 'u',
-    describe: 'Url of the web site.',
+    describe: 'Url of the dApp.',
     type: 'string'
   })
   .option('rpc', {
     alias: 'r',
-    describe: 'Url of RPC.',
+    describe: 'Url of Ethereum RPC.',
     type: 'string'
   })
   .option('template', {
@@ -35,7 +36,8 @@ export const builder = (yargs: yargs.Argv) => (
   })
   .option('pods', {
     alias: 'p',
-    describe: 'Should pods be installed or not.',
+    describe: 'Run pod install after generation.',
+    default: true,
     type: 'boolean'
   })
   .option('config', {
@@ -49,10 +51,10 @@ export const builder = (yargs: yargs.Argv) => (
 
 export const handler = async (cmdConfig: yargs.Arguments<CmdConfig>) => {
   new Runner({ currentDirPath: process.cwd()})
-    .add(new Tasks.GenerateConfigTask(cmdConfig, cliConfig as Config))
+    .add(new Tasks.GenerateConfigTask(cmdConfig, baseConfig as Config))
     .add(new Tasks.GetTemplateDirPathTask())
     .add(new Tasks.CheckTemplateDirTask())
-    .add(new Tasks.GenerateConfigTask(cmdConfig, cliConfig as Config))
+    .add(new Tasks.GenerateConfigTask(cmdConfig, baseConfig as Config))
     .add(new Tasks.ProceedDestDirTask())
     .add(new Tasks.RenderTemplateTask())
     .add(new Tasks.ExecuteTemplateTask())
