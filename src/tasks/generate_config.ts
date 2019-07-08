@@ -1,6 +1,11 @@
 import { Task, existsAsync, readFileAsync, deepMerge } from '../utils'
 import { CmdConfig, Config } from '../types'
 import path from 'path'
+import Ajv from "ajv"
+const ajvAsync = require("ajv-async")(new Ajv)
+
+const WRAPPER_CONFIG_DEFAULT_PATH = './wrapper_config.json'
+const TEMPLATE_CONFIG_FILE_NAME = 'template.config.json'
 
 type Params = {
   currentDirPath: string
@@ -10,27 +15,16 @@ type Result = { config: Config }
 
 export class GenerateConfigTask extends Task<Params, Result> {
   private cmdConfig: CmdConfig
-  private cliConfig: Config
+  private validationScheme: Object
 
-  constructor(cmdConfig: CmdConfig, cliConfig: Config) {
+  constructor(cmdConfig: CmdConfig, validationScheme: Object) {
     super()
     this.cmdConfig = cmdConfig
-    this.cliConfig = cliConfig
+    this.validationScheme = validationScheme
   }
 
   async forward({ currentDirPath, templatePath }: Params) {
-    // validate json by schema
-    const projectConfig = await this.readConfig(currentDirPath, this.cmdConfig.config)
-
-    let config = this.cliConfig
-
-    if (templatePath) {
-      const templateConfig = await this.readConfig(templatePath, 'template.config.json')
-      config = deepMerge(config, templateConfig)
-    }
-    
-    config = deepMerge(config, projectConfig)
-
+    const wrapperConfig = await this.loadWrapperConfig(currentDirPath)
     const cmdConfig = {
       appConfig: {},
       template: {}
@@ -57,9 +51,28 @@ export class GenerateConfigTask extends Task<Params, Result> {
       }
     }
 
-    config = deepMerge(config, cmdConfig)
+    let config = deepMerge(wrapperConfig, cmdConfig)
+
+    if (templatePath) {
+      const templateConfig = await this.readConfig(templatePath, TEMPLATE_CONFIG_FILE_NAME)
+      config = deepMerge(templateConfig, config)
+    }
+
+    await this.validateConfig(config)
 
     return { config }
+  }
+
+  private async loadWrapperConfig(currentDirPath: string): Promise<{[key: string]: any}> {
+    let wrapperConfigPath = WRAPPER_CONFIG_DEFAULT_PATH
+    if (this.cmdConfig.config) {
+      const absWrapperConfigPath = path.isAbsolute(this.cmdConfig.config)
+        ? this.cmdConfig.config
+        : path.join(currentDirPath, this.cmdConfig.config)
+      if (!await existsAsync(absWrapperConfigPath)) throw Error('Incorrect path to config file.')
+      wrapperConfigPath = this.cmdConfig.config
+    }
+    return await this.readConfig(currentDirPath, wrapperConfigPath)
   }
 
   private async readConfig(dir: string, name: string): Promise<{[key: string]: any}> {
@@ -78,5 +91,19 @@ export class GenerateConfigTask extends Task<Params, Result> {
     }
 
     return config
+  }
+
+  private async validateConfig(config: Config) {
+    const validate = ajvAsync.compile(this.validationScheme)
+    try {
+      await validate(config)
+    } catch (err) {
+      if(!(err instanceof Ajv.ValidationError)) {
+        throw new Error(`Required config parameters weren\'t provided. ${err}`)
+      }
+      throw new Error(
+        `Required config parameters weren\'t provided.\n${err.errors.map(err => JSON.stringify(err, null, 2))}`
+      )
+    }
   }
 }

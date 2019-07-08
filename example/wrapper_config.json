@@ -1,6 +1,7 @@
 {
-  "name": "cent",
+  "outputDir": "./",
   "template": {
+    "path": "https://github.com/tesseract-one/WrapperTemplate-iOS.git",
     "resources": {
       "appIcon": "./icon.png",
       "splashImage": "./splash-image.png"

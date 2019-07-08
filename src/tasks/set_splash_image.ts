@@ -1,5 +1,5 @@
 import path from 'path'
-import changeCase from 'change-case'
+import { pascalCase } from 'change-case'
 import  { Task, copyFileAsync } from '../utils'
 import { Config } from '../types'
 
@@ -17,17 +17,14 @@ export class SetSpashImageTask extends Task<Params, Result> {
 
     const imageDestDirPath = path.join(
       destDirPath,
-      changeCase.pascalCase(config.name),
+      pascalCase(config.name),
       'Images.xcassets',
       'SplashImage.imageset',
       path.basename(config.template.resources.splashImage)
     )
 
-    try { // ??? copy or not
-      await copyFileAsync(spashImagePath, imageDestDirPath)
-    } catch (err) {
-      console.error(`Error, splash image wasn\'t set. ${err}`)
-    }
+    await copyFileAsync(spashImagePath, imageDestDirPath)
+
     return {}
   }
 }

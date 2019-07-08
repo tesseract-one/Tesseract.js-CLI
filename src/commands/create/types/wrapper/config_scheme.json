@@ -1,0 +1,63 @@
+{
+  "$async": true,
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runPodInstall": {
+      "type": "boolean"
+    },
+    "outputDir": {
+      "type:": "string",
+      "minLength": 1
+    },
+    "template": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 2
+        },
+        "resources": {
+          "type": "object",
+          "properties": {
+            "appIcon": {
+              "type": "string",
+              "minLength": 5
+            },
+            "splashImage": {
+              "type": "string",
+              "minLength": 5
+            }
+          },
+          "required": [ "appIcon", "splashImage" ],
+          "additionalProperties": true
+        }
+      },
+      "required": [ "path", "resources" ],
+      "additionalProperties": false
+    },
+    "appConfig": {
+      "type": "object",
+      "properties": {
+        "dappUrls": {
+          "type": "object",
+          "minProperties": 1
+        },
+        "rpcUrls": {
+          "type": "object",
+          "minProperties": 1
+        },
+        "extra": {
+          "type": "object"
+        }
+      },
+      "required": [ "dappUrls", "rpcUrls" ],
+      "additionalProperties": true
+    }
+  },
+  "required": [ "name", "runPodInstall", "outputDir", "template", "appConfig" ],
+  "additionalProperties": false
+}

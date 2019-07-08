@@ -14,15 +14,11 @@ export class SetAppIconTask extends Task<Params, Result> {
   async forward({ config, destDirPath }: Params) {
     const appIconPath = config.template.resources.appIcon
 
-    try {
-      await appIcon.generate({
-        sourceIcon: appIconPath,
-        platforms: 'ios',
-        searchRoot: destDirPath,
-      })
-    } catch (err) {
-      console.error(`Error, app icon wasn\'t set. ${err}`)
-    }
+    await appIcon.generate({
+      sourceIcon: appIconPath,
+      platforms: 'ios',
+      searchRoot: destDirPath,
+    })
 
     return {}
   }

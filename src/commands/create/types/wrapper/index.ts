@@ -1,49 +1,48 @@
 import yargs from 'yargs'
 import { Runner } from '../../../../utils'
-import { CmdConfig, Config } from '../../../../types'
-import baseConfig from './config.json'
+import { CmdConfig } from '../../../../types'
+import validationScheme from './config_scheme.json'
 import * as Tasks from '../../../../tasks'
 
 export const command = 'wrapper [name]'
 // export const aliases = ['w']
-export const desc = 'Generate ios wrapper for your web hosted dApp.'
+export const desc = 'Generate ios wrapper for your web hosted dApp'
 
 export const builder = (yargs: yargs.Argv) => (
   yargs.option('name', {
     alias: 'n',
-    describe: 'Name of the dApp.',
+    describe: 'Name of the dApp',
     type: 'string'
   })
   .option('url', {
     alias: 'u',
-    describe: 'Url of the dApp.',
+    describe: 'Url of the dApp',
     type: 'string'
   })
   .option('rpc', {
     alias: 'r',
-    describe: 'Url of Ethereum RPC.',
+    describe: 'Url of Ethereum RPC',
     type: 'string'
   })
   .option('template', {
     alias: 't',
-    describe: 'Path to template, also can be url.',
+    describe: 'Path to template, also can be url',
     type: 'string'
   })
   .option('out', {
     alias: 'o',
-    describe: 'Output directory.',
+    describe: 'Output directory',
     type: 'string'
   })
   .option('pods', {
     alias: 'p',
-    describe: 'Run pod install after generation.',
+    describe: 'Run pod install after generation',
     default: true,
     type: 'boolean'
   })
   .option('config', {
     alias: 'c',
-    describe: 'Path to config file.',
-    default: './project-config.json',
+    describe: 'Path to config file',
     type: 'string'
   })
   .help()
@@ -51,9 +50,9 @@ export const builder = (yargs: yargs.Argv) => (
 
 export const handler = async (cmdConfig: yargs.Arguments<CmdConfig>) => {
   new Runner({ currentDirPath: process.cwd()})
-    .add(new Tasks.GenerateConfigTask(cmdConfig, baseConfig as Config))
+    .add(new Tasks.GenerateConfigTask(cmdConfig, validationScheme))
     .add(new Tasks.GetTemplateDirPathTask())
-    .add(new Tasks.GenerateConfigTask(cmdConfig, baseConfig as Config))
+    .add(new Tasks.GenerateConfigTask(cmdConfig, validationScheme))
     .add(new Tasks.RemoveDestDirTask())
     .add(new Tasks.RenderTemplateTask())
     .add(new Tasks.SetSpashImageTask())

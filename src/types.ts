@@ -29,7 +29,7 @@ export type CmdConfig = {
   template?: string
   out?: string
   pods?: boolean
-  config: string
+  config?: string
 }
 
 export type AppUrl = {
