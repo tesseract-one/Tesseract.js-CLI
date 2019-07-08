@@ -2,7 +2,7 @@ import path from 'path'
 import os from 'os'
 import crypto from 'crypto'
 import { spawn } from 'child_process'
-import { Task, waitTillExit, removeDirAsync } from '../utils'
+import { Task, existsAsync, waitTillExit, removeDirAsync } from '../utils'
 import { Config } from '../types'
 
 type Params = {
@@ -29,6 +29,9 @@ export class GetTemplateDirPathTask extends Task<Params, Result> {
       templateDirPath = path.isAbsolute(config.template.path) 
         ? config.template.path
         : path.join(currentDirPath, config.template.path)
+      if(!await existsAsync(templateDirPath)) {
+        throw Error('Error, can\'t find template directory.')
+      }
     }
 
     return { templateDirPath, isTemplateFromGit }

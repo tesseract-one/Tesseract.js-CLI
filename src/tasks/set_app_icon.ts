@@ -10,7 +10,7 @@ type Params = {
 }
 type Result = {}
 
-export class SetAppIcon extends Task<Params, Result> {
+export class SetAppIconTask extends Task<Params, Result> {
   async forward({ config, destDirPath }: Params) {
     const appIconPath = config.template.resources.appIcon
 

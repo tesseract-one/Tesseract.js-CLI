@@ -8,7 +8,7 @@ type Params = {
 }
 type Result = { destDirPath: string }
 
-export class ProceedDestDirTask extends Task<Params, Result> {
+export class RemoveDestDirTask extends Task<Params, Result> {
   async forward({ config, currentDirPath }: Params) {
     const destDirPath = path.join(currentDirPath, config.outputDir, config.name)
     const isExistDestDir = await existsAsync(destDirPath)

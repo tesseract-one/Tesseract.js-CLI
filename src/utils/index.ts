@@ -1,3 +1,3 @@
 export * from './runner'
-export * from './asyncNodeFunctions'
-export * from './mergeDeep'
+export * from './async'
+export * from './deep_merge'

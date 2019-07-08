@@ -1,5 +1,5 @@
 import yargs from 'yargs'
-import { Runner, Task } from '../../../../utils'
+import { Runner } from '../../../../utils'
 import { CmdConfig, Config } from '../../../../types'
 import baseConfig from './config.json'
 import * as Tasks from '../../../../tasks'
@@ -53,13 +53,11 @@ export const handler = async (cmdConfig: yargs.Arguments<CmdConfig>) => {
   new Runner({ currentDirPath: process.cwd()})
     .add(new Tasks.GenerateConfigTask(cmdConfig, baseConfig as Config))
     .add(new Tasks.GetTemplateDirPathTask())
-    .add(new Tasks.CheckTemplateDirTask())
     .add(new Tasks.GenerateConfigTask(cmdConfig, baseConfig as Config))
-    .add(new Tasks.ProceedDestDirTask())
+    .add(new Tasks.RemoveDestDirTask())
     .add(new Tasks.RenderTemplateTask())
-    .add(new Tasks.ExecuteTemplateTask())
     .add(new Tasks.SetSpashImageTask())
-    .add(new Tasks.SetAppIcon())
+    .add(new Tasks.SetAppIconTask())
     .add(new Tasks.InstallPodsTask())
     .run()
 }

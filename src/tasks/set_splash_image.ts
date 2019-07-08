@@ -20,7 +20,7 @@ export class SetSpashImageTask extends Task<Params, Result> {
       changeCase.pascalCase(config.name),
       'Images.xcassets',
       'SplashImage.imageset',
-      config.template.resources.splashImage
+      path.basename(config.template.resources.splashImage)
     )
 
     try { // ??? copy or not

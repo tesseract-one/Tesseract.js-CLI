@@ -1,6 +1,7 @@
 import  { Task } from '../utils'
-import { RenderedAction, Config, RenderConfig, RenderArguments } from '../types'
+import { RenderedResult, Config, RenderConfig, RenderArguments } from '../types'
 const render = require('hygen/lib/render')
+const execute = require('hygen/lib/execute')
 const Logger = require('hygen/lib/logger')
 
 type Params = {
@@ -8,17 +9,13 @@ type Params = {
   currentDirPath: string
   templateDirPath: string
 }
-type Result = { 
-  renderedActions: RenderedAction[]
-  renderArgs: RenderArguments
-  renderConf: RenderConfig
-}
+type Result = { renderResults: RenderedResult[] }
 
 export class RenderTemplateTask extends Task<Params, Result> {
   async forward({ config, currentDirPath, templateDirPath }: Params) {
     const renderArgs: RenderArguments = {
       cwd: currentDirPath,
-      actionfolder: templateDirPath + "/",
+      actionfolder: templateDirPath,
       config: config
     }
     const renderConf: RenderConfig = {
@@ -30,7 +27,8 @@ export class RenderTemplateTask extends Task<Params, Result> {
       },
       debug: !!process.env.DEBUG
     }
-    const renderedActions = await render(renderArgs, renderConf)
-    return { renderedActions, renderArgs, renderConf }
+    const renderActions = await render(renderArgs, renderConf)
+    const renderResults = await execute(renderActions, renderArgs, renderConf)
+    return { renderResults }
   }
 }

@@ -1,4 +1,4 @@
-import { Task, existsAsync, readFileAsync, mergeDeep } from '../utils'
+import { Task, existsAsync, readFileAsync, deepMerge } from '../utils'
 import { CmdConfig, Config } from '../types'
 import path from 'path'
 
@@ -26,10 +26,10 @@ export class GenerateConfigTask extends Task<Params, Result> {
 
     if (templatePath) {
       const templateConfig = await this.readConfig(templatePath, 'template.config.json')
-      config = mergeDeep(config, templateConfig)
+      config = deepMerge(config, templateConfig)
     }
     
-    config = mergeDeep(config, projectConfig)
+    config = deepMerge(config, projectConfig)
 
     const cmdConfig = {
       appConfig: {},
@@ -57,14 +57,14 @@ export class GenerateConfigTask extends Task<Params, Result> {
       }
     }
 
-    config = mergeDeep(config, cmdConfig)
+    config = deepMerge(config, cmdConfig)
 
     return { config }
   }
 
-  private async readConfig(folder: string, name: string): Promise<{[key: string]: any}> {
-    const fullPath = path.isAbsolute(name) ? name : path.join(folder, name)
-    folder = path.dirname(fullPath)
+  private async readConfig(dir: string, name: string): Promise<{[key: string]: any}> {
+    const fullPath = path.isAbsolute(name) ? name : path.join(dir, name)
+    dir = path.dirname(fullPath)
     if (!await existsAsync(fullPath)) { return {} }
 
     const data = await readFileAsync(fullPath)
@@ -73,7 +73,7 @@ export class GenerateConfigTask extends Task<Params, Result> {
     if (config.template && config.template.resources) {
       for (const key in config.template.resources) {
         const rPath = config.template.resources[key]
-        config.template.resources[key] = path.isAbsolute(rPath) ? rPath : path.join(folder, rPath)
+        config.template.resources[key] = path.isAbsolute(rPath) ? rPath : path.join(dir, rPath)
       }
     }
 
