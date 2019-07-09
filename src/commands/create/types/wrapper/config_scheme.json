@@ -32,11 +32,11 @@
               "minLength": 5
             }
           },
-          "required": [ "appIcon", "splashImage" ],
+          "required": ["appIcon", "splashImage"],
           "additionalProperties": true
         }
       },
-      "required": [ "path", "resources" ],
+      "required": ["path", "resources"],
       "additionalProperties": false
     },
     "appConfig": {
@@ -44,20 +44,56 @@
       "properties": {
         "dappUrls": {
           "type": "object",
-          "minProperties": 1
+          "properties": {
+            "default": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "netId": {
+                    "type": "string",
+                    "mainLength": 1
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": ["name", "url", "netId"],
+                "additionalProperties": false
+              },
+              "additionalItems": false
+            },
+            "testing": {
+              "type": "array"
+            }
+          },
+          "required": ["default", "testing"],
+          "additionalProperties": false
         },
         "rpcUrls": {
           "type": "object",
-          "minProperties": 1
+          "patternProperties": {
+            ".*?": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "minProperties": 1,
+          "uniqueProperties" : true  
         },
         "extra": {
           "type": "object"
         }
       },
-      "required": [ "dappUrls", "rpcUrls" ],
+      "required": ["dappUrls", "rpcUrls", "extra"],
       "additionalProperties": true
     }
   },
-  "required": [ "name", "runPodInstall", "outputDir", "template", "appConfig" ],
+  "required": ["name", "runPodInstall", "outputDir", "template", "appConfig"],
   "additionalProperties": false
 }
