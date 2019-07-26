@@ -25,7 +25,6 @@ You can add wrapper.config.json (or any other JSON file, but then don't forget t
   "appConfig": {
     "dappUrls": {
       "default": [{
-        "netId": "1",
         "url": "https://beta.cent.co/",
         "name": "main"
       }],
@@ -34,9 +33,7 @@ You can add wrapper.config.json (or any other JSON file, but then don't forget t
     "rpcUrls": {
       "1": "https://mainnet.infura.io/v3/f20390fe230e46608572ac4378b70668"
     },
-    "extra": {},
-    "statusBarColor": "#222222",
-    "isLightStatusBar": true
+    "extra": {}
   }
 }
 ```
