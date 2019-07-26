@@ -32,11 +32,13 @@
               "minLength": 5
             }
           },
-          "required": ["appIcon", "splashImage"],
           "additionalProperties": true
+        },
+        "iosBundleId": {
+          "type": "string"
         }
       },
-      "required": ["path", "resources"],
+      "required": ["path"],
       "additionalProperties": false
     },
     "appConfig": {
@@ -50,10 +52,6 @@
               "items": {
                 "type": "object",
                 "properties": {
-                  "netId": {
-                    "type": "string",
-                    "mainLength": 1
-                  },
                   "url": {
                     "type": "string",
                     "format": "uri"
@@ -63,7 +61,7 @@
                     "minLength": 1
                   }
                 },
-                "required": ["name", "url", "netId"],
+                "required": ["name", "url"],
                 "additionalProperties": false
               },
               "additionalItems": false

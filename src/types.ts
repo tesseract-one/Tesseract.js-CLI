@@ -34,7 +34,6 @@ export type CmdConfig = {
 
 export type AppUrl = {
   name: string
-  netId: string
   url: string
 }
 

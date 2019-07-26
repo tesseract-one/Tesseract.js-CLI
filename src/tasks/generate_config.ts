@@ -9,7 +9,7 @@ const TEMPLATE_CONFIG_FILE_NAME = 'template.config.json'
 
 type Params = {
   currentDirPath: string
-  templatePath?: string
+  templateDirPath?: string
 }
 type Result = { config: Config }
 
@@ -24,7 +24,7 @@ export class GenerateConfigTask extends Task<Params, Result> {
     this.validationScheme = validationScheme
   }
 
-  async forward({ currentDirPath, templatePath }: Params) {
+  async forward({ currentDirPath, templateDirPath }: Params) {
     const wrapperConfig = await this.loadWrapperConfig(currentDirPath)
     const cmdConfig = {
       appConfig: {},
@@ -37,7 +37,6 @@ export class GenerateConfigTask extends Task<Params, Result> {
       cmdConfig.appConfig.dappUrls = {
         appstore: {
           name: 'main',
-          netId: this.cmdConfig.network,
           url: this.cmdConfig.url
         }
       }
@@ -54,13 +53,13 @@ export class GenerateConfigTask extends Task<Params, Result> {
 
     let config = deepMerge(wrapperConfig, cmdConfig)
 
-    if (templatePath) {
-      const templateConfig = await this.readConfig(templatePath, TEMPLATE_CONFIG_FILE_NAME)
+    if (templateDirPath) {
+      const templateConfig = await this.readConfig(templateDirPath, TEMPLATE_CONFIG_FILE_NAME)
       config = deepMerge(templateConfig, config)
     }
 
     await this.validateConfig(config)
-
+  
     return { config }
   }
 
