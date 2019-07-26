@@ -94,7 +94,6 @@ The final configuration will be a combination of config files and command line s
   "appConfig": {
     "dappUrls": {
       "default": [{
-        "netId": "string",
         "url": "string",
         "name": "string"
       }],
@@ -103,9 +102,7 @@ The final configuration will be a combination of config files and command line s
     "rpcUrls": {
       "string": "string"
     },
-    "extra": {},
-    "statusBarColor": "string",
-    "isLightStatusBar": "boolean"
+    "extra": {}
   }
 }
 ```
