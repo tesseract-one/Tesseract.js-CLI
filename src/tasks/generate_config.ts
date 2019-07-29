@@ -27,18 +27,20 @@ export class GenerateConfigTask extends Task<Params, Result> {
   async forward({ currentDirPath, templateDirPath }: Params) {
     const wrapperConfig = await this.loadWrapperConfig(currentDirPath)
     const cmdConfig = {
-      appConfig: {},
+      appConfig: {
+        extra: {}
+      },
       template: {}
     } as Config
 
     if (this.cmdConfig.name) { cmdConfig.name = this.cmdConfig.name }
     if (this.cmdConfig.url) {
-      if (!this.cmdConfig.network) { throw new Error('Empty network parameter')}
       cmdConfig.appConfig.dappUrls = {
-        appstore: {
+        default: [{
           name: 'main',
           url: this.cmdConfig.url
-        }
+        }],
+        testing: []
       }
     }
     if (this.cmdConfig.pods) { cmdConfig.runPodInstall = this.cmdConfig.pods }
@@ -50,9 +52,8 @@ export class GenerateConfigTask extends Task<Params, Result> {
       }
     }
     if (this.cmdConfig.rpc) {
-      if (!this.cmdConfig.network) { throw new Error('Empty network parameter')}
       cmdConfig.appConfig.rpcUrls = {
-        [this.cmdConfig.network]: this.cmdConfig.rpc
+        "1": this.cmdConfig.rpc
       }
     }
 

@@ -44,12 +44,7 @@ You can add wrapper.config.json (or any other JSON file, but then don't forget t
 or use command line subcommands
 
 ```sh
---out "./"
---template "https://github.com/tesseract-one/WrapperTemplate-iOS.git"
---url "https://beta.cent.co/"
---rpc "https://mainnet.infura.io/v3/f20390fe230e46608572ac4378b70668"
---pods true
---app-id "test.app"
+--out "./" --template "https://github.com/tesseract-one/WrapperTemplate-iOS.git" --url "https://tesseract.one/" --rpc "https://mainnet.infura.io/v3/f20390fe230e46608572ac4378b70668" --pods true --app-id "test.app"
 ```
 
 also, don't forget to provide icon and splash-image for the app

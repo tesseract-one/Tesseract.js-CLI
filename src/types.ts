@@ -39,8 +39,8 @@ export type AppUrl = {
 }
 
 export type DappUrls = {
-  testing?: AppUrl[]
-  appstore: AppUrl 
+  default: AppUrl[]
+  testing: AppUrl[]
 }
 
 export type AppConfig = {
