@@ -45,6 +45,11 @@ export const builder = (yargs: yargs.Argv) => (
     describe: 'Path to config file',
     type: 'string'
   })
+  .option('app-id', {
+    alias: 'i',
+    describe: 'Bundle and package id of aplication',
+    type: 'string'
+  })
   .help()
 )
 

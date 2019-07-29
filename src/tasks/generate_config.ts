@@ -44,6 +44,11 @@ export class GenerateConfigTask extends Task<Params, Result> {
     if (this.cmdConfig.pods) { cmdConfig.runPodInstall = this.cmdConfig.pods }
     if (this.cmdConfig.out) { cmdConfig.outputDir = this.cmdConfig.out }
     if (this.cmdConfig.template) { cmdConfig.template.path = this.cmdConfig.template }
+    if (this.cmdConfig.appId) { 
+      cmdConfig.template.appId = {
+        ios: this.cmdConfig.appId
+      }
+    }
     if (this.cmdConfig.rpc) {
       if (!this.cmdConfig.network) { throw new Error('Empty network parameter')}
       cmdConfig.appConfig.rpcUrls = {

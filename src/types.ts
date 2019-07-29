@@ -30,6 +30,7 @@ export type CmdConfig = {
   out?: string
   pods?: boolean
   config?: string
+  appId?: string
 }
 
 export type AppUrl = {

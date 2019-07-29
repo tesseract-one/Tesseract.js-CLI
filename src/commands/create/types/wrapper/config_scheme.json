@@ -34,11 +34,34 @@
           },
           "additionalProperties": true
         },
-        "iosBundleId": {
-          "type": "string"
+        "fabric": {
+          "type": "object",
+          "properties": {
+            "key":  {
+              "type": "string",
+              "minLength": 10
+            },
+            "secret":  {
+              "type": "string",
+              "minLength": 10
+            }
+          },
+          "required": ["key", "secret"],
+          "additionalProperties": false
+        },
+        "appId": {
+          "type": "object",
+          "properties": {
+            "ios":  {
+              "type": "string",
+              "minLength": 4
+            }
+          },
+          "required": ["ios"],
+          "additionalProperties": false
         }
       },
-      "required": ["path"],
+      "required": ["path", "appId"],
       "additionalProperties": false
     },
     "appConfig": {

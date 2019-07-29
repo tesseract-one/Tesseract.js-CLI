@@ -20,12 +20,15 @@ You can add wrapper.config.json (or any other JSON file, but then don't forget t
     "resources": {
       "appIcon": "./icon.png",
       "splashImage": "./splash-image.png"
+    },
+    "appId": {
+      "ios": "test.app"
     }
   },
   "appConfig": {
     "dappUrls": {
       "default": [{
-        "url": "https://beta.cent.co/",
+        "url": "https://tesseract.one/",
         "name": "main"
       }],
       "testing": []
@@ -46,6 +49,7 @@ or use command line subcommands
 --url "https://beta.cent.co/"
 --rpc "https://mainnet.infura.io/v3/f20390fe230e46608572ac4378b70668"
 --pods true
+--app-id "test.app"
 ```
 
 also, don't forget to provide icon and splash-image for the app
@@ -71,6 +75,7 @@ The final configuration will be a combination of config files and command line s
 --out | -o | Path to the output directory
 --pods | -p | Run pod install after generation or not
 --config | -c | Path to the configuration file
+--app-id | -i | Bundle and package id of aplication
 --help | -h | Auto-generated usage information
 --version | -v | Version of the CLI
 
@@ -86,6 +91,13 @@ The final configuration will be a combination of config files and command line s
     "resources": {
       "appIcon": "string",
       "splashImage": "string"
+    },
+    "fabric": {
+      "key": "string",
+      "secret": "string"
+    },
+    "appId": {
+      "ios": "string"
     }
   },
   "appConfig": {

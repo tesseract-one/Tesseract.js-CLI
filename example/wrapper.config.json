@@ -5,12 +5,15 @@
     "resources": {
       "appIcon": "./icon.png",
       "splashImage": "./splash-image.png"
+    },
+    "appId": {
+      "ios": "test.app"
     }
   },
   "appConfig": {
     "dappUrls": {
       "default": [{
-        "url": "https://beta.cent.co/",
+        "url": "https://tesseract.one/",
         "name": "main"
       }],
       "testing": []
