@@ -3,9 +3,9 @@
 #### Install:
 
 ```sh
-npm install -g tesseract
+npm install -g @tesseractjs/cli
 # OR
-yarn global add tesseract
+yarn global add @tesseractjs/cli
 ```
 
 #### Provide config:

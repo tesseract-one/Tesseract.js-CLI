@@ -1,18 +1,29 @@
 {
-  "name": "test-cli",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@tesseractjs/cli",
+  "version": "0.1.0",
+  "description": "Tesseract.js project management command line interface",
+  "keywords": [ "tesseract", "web3", "project", "cli", "generator" ],
+  "author": "Tesseract Systems Inc.",
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://github.com/tesseract-one/Tesseract.js-CLI",
+  "private": false,
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/tesseract-one/Tesseract.js-CLI.git"
+  },
+  "bugs": {
+      "url": "https://github.com/tesseract-one/Tesseract.js-CLI/issues"
+  },
+  "files": [ "dist" ],
   "bin": {
-    "tesseract": "dist/cli.js"
+      "tesseract": "dist/cli.js"
   },
-  "files": [
-    "dist"
-  ],
+  "publishConfig": {
+      "access": "public"
+  },
   "scripts": {
-    "build": "rm -rf ./dist && tsc && chmod 755 ./dist/cli.js"
+      "build": "rm -rf ./dist && tsc && chmod 755 ./dist/cli.js"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "ajv": "^6.10.1",
     "ajv-async": "^1.0.1",
