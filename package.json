@@ -1,6 +1,6 @@
 {
   "name": "@tesseractjs/cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Tesseract.js project management command line interface",
   "keywords": [ "tesseract", "web3", "project", "cli", "generator" ],
   "author": "Tesseract Systems Inc.",
@@ -22,6 +22,7 @@
       "access": "public"
   },
   "scripts": {
+      "prepublishOnly": "npm run build",
       "build": "rm -rf ./dist && tsc && chmod 755 ./dist/cli.js"
   },
   "dependencies": {
