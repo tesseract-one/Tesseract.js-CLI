@@ -10,13 +10,12 @@ yarn global add tesseract
 
 #### Provide config:
 
-You can add wrapper.config.json (or any other JSON file, but then don't forget to specify its path by command line subcommand --config) like this:
+You can add wrapper.config.json (or any other JSON file, but then don't forget to specify its path by command line parameter --config) like this:
 
 ```json
 {
-  "outputDir": "./",
+  "name": "TheAppName",
   "template": {
-    "path": "https://github.com/tesseract-one/WrapperTemplate-iOS.git",
     "resources": {
       "appIcon": "./icon.png",
       "splashImage": "./splash-image.png"
@@ -41,27 +40,30 @@ You can add wrapper.config.json (or any other JSON file, but then don't forget t
 }
 ```
 
-or use command line subcommands
+and execute cli command
 
 ```sh
---out "./" --template "https://github.com/tesseract-one/WrapperTemplate-iOS.git" --url "https://tesseract.one/" --rpc "https://mainnet.infura.io/v3/f20390fe230e46608572ac4378b70668" --pods true --app-id "test.app"
+tesseract create wrapper -c "./config-name.json"
+```
+
+or use command line parameters
+
+```sh
+tesseract create wrapper TheAppName \
+  --url "https://tesseract.one/" \
+  --rpc "https://mainnet.infura.io/v3/f20390fe230e46608572ac4378b70668" \
+  --app-id "test.app"
 ```
 
 also, don't forget to provide icon and splash-image for the app
 
-#### Create a wrapper:
-
-```sh
-tesseract create wrapper TheAppName [subcommands]
-```
-
 ## Configuration of wrapper
 
-The final configuration will be a combination of config files and command line subcommands
+The final configuration will be a combination of config files and command line parameters
 
-### Command line subcommands
+### Command line parameters
 
-| subcommand | shortcut | Description |
+| parameter | shortcut | Description |
 |---|---|---|
 --name | -n | Name of the app
 --url | -u | URL of the website for the app, if there is more than one URL use config file

@@ -27,11 +27,13 @@ export const builder = (yargs: yargs.Argv) => (
   .option('template', {
     alias: 't',
     describe: 'Path to template, also can be url',
+    default: 'https://github.com/tesseract-one/WrapperTemplate-iOS.git',
     type: 'string'
   })
   .option('out', {
     alias: 'o',
     describe: 'Output directory',
+    default: './',
     type: 'string'
   })
   .option('pods', {
