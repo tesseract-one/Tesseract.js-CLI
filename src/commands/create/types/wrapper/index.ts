@@ -33,7 +33,6 @@ export const builder = (yargs: yargs.Argv) => (
   .option('out', {
     alias: 'o',
     describe: 'Output directory',
-    default: './',
     type: 'string'
   })
   .option('pods', {

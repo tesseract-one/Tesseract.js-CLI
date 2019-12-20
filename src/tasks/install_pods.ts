@@ -15,7 +15,7 @@ export class InstallPodsTask extends Task<Params, Result> {
 
   async rollback({ destDirPath }: { destDirPath: string }) {
     const podsDirPath = path.join(destDirPath, './Pods')
-    const podfileDirPath = path.join(destDirPath, './podfile.lock' )
+    const podfileDirPath = path.join(destDirPath, './Podfile.lock' )
     if (await existsAsync(podsDirPath)) await removeDirAsync(podsDirPath)
     if (await existsAsync(podfileDirPath)) await unlinkAsync(podfileDirPath)
   }
