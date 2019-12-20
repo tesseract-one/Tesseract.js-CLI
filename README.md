@@ -1,5 +1,13 @@
 ## Getting Started
 
+#### Prerequisites:
+
+Install [imagemagick](https://imagemagick.org):
+
+```sh
+brew install imagemagick
+```
+
 #### Install:
 
 ```sh
