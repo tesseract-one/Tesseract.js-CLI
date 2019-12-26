@@ -35,7 +35,7 @@ You can add wrapper.config.json (or any other JSON file, but then don't forget t
   "appConfig": {
     "dappUrls": {
       "default": [{
-        "url": "https://tesseract.one/",
+        "url": "https://demo.tesseract.one/",
         "name": "main"
       }],
       "testing": []

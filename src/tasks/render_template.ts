@@ -1,12 +1,13 @@
 import  { Task, existsAsync, removeDirAsync } from '../utils'
 import { RenderedResult, Config, RenderConfig, RenderArguments } from '../types'
+// import path from 'path'
 const render = require('hygen/lib/render')
 const execute = require('hygen/lib/execute')
 const Logger = require('hygen/lib/logger')
 
 type Params = {
   config: Config
-  currentDirPath: string
+  destDirPath: string
   templateDirPath: string
 }
 type RollbackParams = { destDirPath: string }
@@ -15,14 +16,13 @@ type Result = { renderResults: RenderedResult[] }
 export class RenderTemplateTask extends Task<Params & RollbackParams, Result> {
   public description = 'Rendering wrapper...'
 
-  async forward({ config, currentDirPath, templateDirPath }: Params) {
+  async forward({ config, destDirPath, templateDirPath }: Params) {
     const renderArgs: RenderArguments = {
-      cwd: currentDirPath,
       actionfolder: templateDirPath,
       config: config
     }
     const renderConf: RenderConfig = {
-      cwd: currentDirPath,
+      cwd: destDirPath,
       logger: new Logger(console.log.bind(console)),
       createPrompter: () => require('enquirer'),
       helpers: {

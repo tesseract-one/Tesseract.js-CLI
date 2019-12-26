@@ -17,10 +17,12 @@ export class GenerateConfigTask extends Task<Params, Result> {
   public description = 'Generating config...'
   private cmdConfig: CmdConfig
   private validationScheme: Object
+  private defaults: Partial<Config>
 
-  constructor(cmdConfig: CmdConfig, validationScheme: Object) {
+  constructor(defaults: Partial<Config>, cmdConfig: CmdConfig, validationScheme: Object) {
     super()
     this.cmdConfig = cmdConfig
+    this.defaults = defaults
     this.validationScheme = validationScheme
   }
 
@@ -58,6 +60,7 @@ export class GenerateConfigTask extends Task<Params, Result> {
     }
 
     let config = deepMerge(wrapperConfig, cmdConfig)
+    config = deepMerge(this.defaults, config)
 
     if (templateDirPath) {
       const templateConfig = await this.readConfig(templateDirPath, TEMPLATE_CONFIG_FILE_NAME)
@@ -89,6 +92,12 @@ export class GenerateConfigTask extends Task<Params, Result> {
     const data = await readFileAsync(fullPath)
     const config: Config = JSON.parse(data.toString())
 
+    if (config.outputDir) {
+      config.outputDir = path.isAbsolute(config.outputDir)
+        ? config.outputDir
+        : path.join(dir, config.outputDir)
+    }
+    
     if (config.template && config.template.resources) {
       for (const key in config.template.resources) {
         const rPath = config.template.resources[key]

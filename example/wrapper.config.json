@@ -1,4 +1,5 @@
 {
+  "name": "TestApp",
   "outputDir": "./",
   "template": {
     "path": "https://github.com/tesseract-one/WrapperTemplate-iOS.git",
@@ -13,7 +14,7 @@
   "appConfig": {
     "dappUrls": {
       "default": [{
-        "url": "https://tesseract.one/",
+        "url": "https://demo.tesseract.one/",
         "name": "main"
       }],
       "testing": []

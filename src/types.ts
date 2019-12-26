@@ -16,7 +16,6 @@ export type RenderConfig = {
 }
 
 export type RenderArguments = {
-  cwd: string
   actionfolder: string
   config: Config
 }

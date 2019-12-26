@@ -12,7 +12,7 @@ type Params = {
 type Result = {}
 
 export class SetSpashImageTask extends Task<Params, Result> {
-  public description = 'Coping splash image...'
+  public description = 'Copying splash image...'
 
   async forward({ config, destDirPath }: Params) {
     const spashImagePath = config.template.resources.splashImage

@@ -1,6 +1,6 @@
 import yargs from 'yargs'
 import { Runner } from '../../../../utils'
-import { CmdConfig } from '../../../../types'
+import { CmdConfig, Config } from '../../../../types'
 import validationScheme from './config_scheme.json'
 import * as Tasks from '../../../../tasks'
 
@@ -27,7 +27,6 @@ export const builder = (yargs: yargs.Argv) => (
   .option('template', {
     alias: 't',
     describe: 'Path to template, also can be url',
-    default: 'https://github.com/tesseract-one/WrapperTemplate-iOS.git',
     type: 'string'
   })
   .option('out', {
@@ -38,7 +37,6 @@ export const builder = (yargs: yargs.Argv) => (
   .option('pods', {
     alias: 'p',
     describe: 'Run pod install after generation',
-    default: true,
     type: 'boolean'
   })
   .option('config', {
@@ -54,11 +52,19 @@ export const builder = (yargs: yargs.Argv) => (
   .help()
 )
 
+const defaultConfig = {
+  outputDir: './ios',
+  runPodInstall: true,
+  template: {
+    path: 'https://github.com/tesseract-one/WrapperTemplate-iOS.git'
+  }
+} as Partial<Config>
+
 export const handler = async (cmdConfig: yargs.Arguments<CmdConfig>) => {
   new Runner({ currentDirPath: process.cwd()})
-    .add(new Tasks.GenerateConfigTask(cmdConfig, validationScheme))
+    .add(new Tasks.GenerateConfigTask(defaultConfig, cmdConfig, validationScheme))
     .add(new Tasks.GetTemplateDirPathTask())
-    .add(new Tasks.GenerateConfigTask(cmdConfig, validationScheme))
+    .add(new Tasks.GenerateConfigTask(defaultConfig, cmdConfig, validationScheme))
     .add(new Tasks.CleanDestDirTask())
     .add(new Tasks.RenderTemplateTask())
     .add(new Tasks.SetSpashImageTask())
