@@ -1,6 +1,6 @@
 {
   "name": "TestApp",
-  "outputDir": "./",
+  "outputDir": "./ios",
   "template": {
     "path": "https://github.com/tesseract-one/WrapperTemplate-iOS.git",
     "resources": {
